@@ -1,11 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Artist Statement</title>
+
+    <style> 
+        body {
+            background-color: #eb90ee;
+            display: grid;
+            place-items: center; /*MDN*/
+        }
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: rgb(255, 247, 0);
+            border-radius: 50%;
+        }
+
+        .title {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+            font-size: 30px;
+            color: rgb(255, 247, 0);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .questions {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+            font-size: 18px;
+            color: rgb(22, 169, 218);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        button {
+            font-family: 'Lucida Sans', ' Lucida Sans Regular', ' Lucida Grande', ' Lucida Sans Unicode';
+            font-size: 15px;
+            background-color: #ffffff;
+            color: rgb(22, 169, 218);
+            border-radius: 9px;
+            border: none;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #b4eab7;
+        }
+
+        button:active {
+            background-color: #e7f1e7;
+        }
+
+        .poem {
+            font-family: 'Lucida Sans', ' Lucida Sans Regular', ' Lucida Grande', ' Lucida Sans Unicode';
+            font-size: 18px;
+            color: rgb(255, 247, 0);
+            text-align: center;
+        }
+    </style>
+
 </head>
+
 <body>
-    Good morning!
+
+    <div class="circle"></div>
+
+    <div class="title">
+       True Artist Statement Machine
+    </div>
+    <div class="questions">
+        <p>.....<i>for each of the following, reply with one word....... </i>
+            <br><br> What makes you want to tell the truth?
+        </p>
+        <!--sourced from demoland -->
+        <input type="text" id="input-1">  
+    </div>
+    <div class="buttons">
+        <button onclick="addToArray(1);">
+            mhm
+        </button>
+    </div>
+
+    <div class="questions">
+        <p>What's another word for truth? </p>
+        <input type="text" id="input-2">
+    </div>
+
+    <div class="buttons">
+        <button onclick="addToArray(2);">mhm</button>
+    </div>
+
+    <div class="questions">
+        <p>What is the true-ist part of your body?</p>
+        <input type="text" id="input-3">
+    </div>
+    <div class="buttons">
+        <button onclick="addToArray(3);">mhm</button>
+    </div>
+
+    <div class="questions">
+        <p>How much?</p>
+        <input type="range" value="50" min="1" max="100" id="poem-length">
+    </div>
+
+    <div class="buttons">
+        <button onclick="generatePoem();">Creation</button>
+    </div>
+
+    <div class="poem" id="output"></div>
+
+    <script>
+        // from demoland
+        let articles = ["a", "is", "the", "was", "many"];
+        let adjectives = ["tremendous", "banal", "splintered", "overthought", "intuitive", "trash"];
+        let nouns = ["TheWork", "piece", "product", "practice"];
+        let adverbs = ["never", "feverishly", "always", "extremely", "transactionally"];
+        let verbs = ["collaging", "sculpting", "intuiting", "making"];
+        let conjunctions = ["and", "so", "then"];
+        let input1 = ["and that's why"];
+        let input2 = ["for the first time ever"];
+        let input3 = ["again and again"];
+
+        // adding the user input to the array, bits from MDN
+        function addToArray(inputNumber) {
+            let inputElement = document.querySelector(`#input-${inputNumber}`);
+            let userInput = inputElement.value.trim(); 
+
+
+            if (userInput) {
+                let firstWord = userInput.split(" ")[0];  // edge case of ppl putting in more than one word
+
+                if (inputNumber === 1) input1.push(firstWord);
+                if (inputNumber === 2) input2.push(firstWord);
+                if (inputNumber === 3) input3.push(firstWord);
+
+                inputElement.value = ""; // clear text box and then give alerts
+                alert("nice, go to next text box");
+            } else {
+                alert("enter a word before clicking yes...");
+            }
+        }
+
+        let allcategories = [articles, adjectives, nouns, adverbs, verbs, conjunctions, input1, input2, input3];
+
+        // da big function *demoland code
+        function generatePoem() {
+            const poemLength = document.querySelector('#poem-length').value;
+            let poem = "";
+
+            // looping 
+            for (let i = 0; i < poemLength; i++) {
+                const randomCategoryIndex = Math.floor(Math.random() * allcategories.length);
+                const currentCategory = allcategories[randomCategoryIndex];
+
+                if (currentCategory.length > 0) {
+                    const randomWord = currentCategory[Math.floor(Math.random() * currentCategory.length)];
+                    poem += randomWord + " ";
+                } else {
+                    poem += "[unanswered] ";
+                }
+            }
+// poem finally
+            const output = document.querySelector('#output');
+            output.innerHTML = poem;
+        }
+    </script>
 </body>
+
 </html>
